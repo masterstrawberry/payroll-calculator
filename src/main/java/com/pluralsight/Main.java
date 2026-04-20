@@ -1,17 +1,33 @@
 package com.pluralsight;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    static void main() {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        IO.println(String.format("Hello and welcome!"));
+import java.io.*;
+import java.util.Scanner;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            IO.println("i = " + i);
+public class Main {
+    public static void main(String args[]) {
+        try {
+            FileReader fileReader = new FileReader("../DataFiles/employees.csv");
+            // create a FileReader object connected to the File
+            // create a BufferedReader to manage input stream
+            BufferedReader bufReader = new BufferedReader(fileReader);
+            String input;
+            // read until there is no more data
+            bufReader.readLine();
+            while((input = bufReader.readLine()) != null) {
+                String []arr = input.split("\\|");
+                Employee employee = new Employee(Integer.parseInt(arr[0]), arr[1], Double.parseDouble(arr[2]), Double.parseDouble(arr[3]));
+
+                System.out.println("\n");
+                System.out.println("employeeId: " + employee.getEmployeeId());
+                System.out.println("name: " + employee.getName());
+                System.out.println("gross pay: " + employee.getGrossPay());
+
+            }
+            // close the stream and release the resources
+            bufReader.close();
+        } catch(IOException e) {
+            // display stack trace if there was an error
+            e.printStackTrace();
         }
     }
 }
